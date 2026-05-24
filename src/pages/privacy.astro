@@ -1,0 +1,141 @@
+---
+import Base from '../layouts/Base.astro';
+
+const lastUpdated = 'May 24, 2026';
+---
+
+<Base
+  title="Privacy"
+  description="Go Bananas privacy policy. The app runs entirely on your device. No data is collected, transmitted, or shared."
+  path="/privacy"
+>
+  <section class="container-quiet page-head">
+    <p class="eyebrow"><a href="/">Go Bananas</a></p>
+    <h1 class="page-title">Privacy Policy</h1>
+    <p class="page-meta">Last updated: {lastUpdated}</p>
+  </section>
+
+  <hr class="section-rule" />
+
+  <article class="container-quiet section prose">
+    <p>
+      Go Bananas is a banana ripeness scanning app published by Harnisch LLC
+      ("we", "us"). This policy explains what data the app does and does not
+      collect.
+    </p>
+
+    <h2>TL;DR</h2>
+    <p>
+      Go Bananas runs entirely on your device. We do not collect, transmit,
+      store, or share any personal data. Photos you take to scan a banana
+      are processed on the device, never uploaded, and never leave your
+      phone.
+    </p>
+
+    <h2>What we collect</h2>
+    <p>
+      <strong>Nothing.</strong> Go Bananas v1.0 does not transmit any data
+      off your device. There is no account, no login, no analytics, no
+      advertising SDK.
+    </p>
+
+    <h2>What stays on your device</h2>
+    <p>The app stores the following locally, accessible only to you:</p>
+    <ul>
+      <li>
+        <strong>Scan history</strong>: the photo and computed ripeness stage
+        for each banana you've scanned. You can clear this from the History
+        tab at any time.
+      </li>
+      <li>
+        <strong>Bunch state</strong>: the virtual "bunch" of bananas you've
+        planted in the Bananas tab, including the family name you chose,
+        environment selections (counter, fridge, etc.), and the bunch's
+        lifecycle events.
+      </li>
+      <li>
+        <strong>Notification preferences</strong>: if you opt into ripeness
+        alerts for the bunch feature, the operating system holds a
+        notification token locally to schedule "your banana is ripe"
+        reminders. The token is not transmitted to us.
+      </li>
+    </ul>
+
+    <h2>What we do NOT do</h2>
+    <ul>
+      <li>We do not collect personal information (name, email, location, contact info).</li>
+      <li>We do not upload your photos.</li>
+      <li>We do not use third-party analytics or advertising SDKs.</li>
+      <li>We do not share data with third parties.</li>
+      <li>We do not track you across other apps or websites.</li>
+    </ul>
+
+    <h2>Permissions the app requests</h2>
+    <ul>
+      <li>
+        <strong>Camera</strong>: used to take photos of bananas in-app.
+        Photos are processed on-device only.
+      </li>
+      <li>
+        <strong>Photo library</strong> (optional): if you choose to analyze
+        a photo you already have, the app reads it from your library
+        locally. Photos are processed on-device only.
+      </li>
+      <li>
+        <strong>Notifications</strong> (optional): used for local "your
+        bunch is ripe" reminders. No remote push notifications are sent.
+      </li>
+    </ul>
+
+    <h2>Future features</h2>
+    <p>
+      A future version may add an optional "anonymous corrections" feature,
+      where you can send back the predicted ripeness stage and your
+      correction (no photos, no identifying information) to help improve
+      the algorithm. This will be strictly opt-in. When and if it ships,
+      this policy will be updated to describe exactly what is sent.
+    </p>
+
+    <h2>Children</h2>
+    <p>
+      Go Bananas is suitable for all ages and does not knowingly collect
+      data from anyone, including children under 13.
+    </p>
+
+    <h2>Changes to this policy</h2>
+    <p>
+      We may update this policy from time to time. Material changes will be
+      noted at the top of this page and the updated date revised.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions about this policy? Email{' '}
+      <a href="mailto:info@harnischllc.com">info@harnischllc.com</a>.
+    </p>
+  </article>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .page-title {
+    font-size: clamp(2.25rem, 4vw + 1rem, 3.5rem);
+    font-weight: 900;
+    letter-spacing: -0.035em;
+    margin: 0.4rem 0 0;
+  }
+
+  .page-meta {
+    margin-top: 0.6rem;
+    font-size: 0.875rem;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+
+  .section {
+    padding-block: clamp(2rem, 5vw, 3.5rem);
+  }
+</style>

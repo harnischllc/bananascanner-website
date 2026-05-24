@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bananascanner.com/sitemap-index.xml

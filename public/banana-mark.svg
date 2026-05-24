@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none" role="img" aria-label="Banana">
+  <!-- Main banana body -->
+  <path
+    d="M58 32 C 38 75, 36 132, 70 168 C 108 184, 156 172, 168 130 C 176 100, 158 70, 132 56 L 122 50 L 110 58 C 92 50, 74 42, 58 32 Z"
+    fill="#f5c518"
+    stroke="#1f1d18"
+    stroke-width="7"
+    stroke-linejoin="round"
+  />
+  <!-- Stem -->
+  <path
+    d="M122 50 L 122 28 C 124 22, 132 22, 134 28 L 140 46"
+    stroke="#1f1d18"
+    stroke-width="7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+  <!-- Interior detail curve -->
+  <path
+    d="M 75 92 C 92 136, 124 150, 150 132"
+    stroke="#1f1d18"
+    stroke-width="5"
+    stroke-linecap="round"
+    fill="none"
+  />
+  <!-- Bottom tip detail -->
+  <path
+    d="M 70 162 L 78 168"
+    stroke="#1f1d18"
+    stroke-width="5"
+    stroke-linecap="round"
+    fill="none"
+  />
+</svg>

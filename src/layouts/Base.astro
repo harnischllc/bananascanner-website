@@ -1,0 +1,155 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  path?: string;
+}
+
+const {
+  title = 'Go Bananas',
+  description = 'Go Bananas: Banana Scanner. iOS and Android app that scans bananas with the camera and tells you when each one is at its peak. Published by Harnisch LLC.',
+  path = Astro.url.pathname,
+} = Astro.props;
+
+const fullTitle =
+  title === 'Go Bananas' ? `${title} · Banana Scanner` : `${title} · Go Bananas`;
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={new URL(path, Astro.site).toString()} />
+    <meta name="theme-color" content="#f5c518" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap"
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={new URL(path, Astro.site).toString()} />
+    <meta property="og:image" content={new URL('/banana-mark.svg', Astro.site).toString()} />
+    <meta name="twitter:card" content="summary" />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'MobileApplication',
+        name: 'Go Bananas: Banana Scanner',
+        operatingSystem: 'iOS, Android',
+        applicationCategory: 'UtilityApplication',
+        description,
+        url: 'https://bananascanner.com',
+        author: {
+          '@type': 'Organization',
+          name: 'Harnisch LLC',
+          url: 'https://harnischllc.com',
+        },
+      })}
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container-quiet footer-inner">
+        <p class="footer-line">
+          Go Bananas is published by{' '}
+          <a href="https://harnischllc.com">Harnisch LLC</a>. &copy; {year}.
+        </p>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="/">Home</a>
+          <span aria-hidden="true">·</span>
+          <a href="/privacy">Privacy</a>
+          <span aria-hidden="true">·</span>
+          <a href="/support">Support</a>
+        </nav>
+      </div>
+    </footer>
+
+    <style>
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+      .skip-link:focus {
+        position: fixed;
+        left: 1rem;
+        top: 1rem;
+        width: auto;
+        height: auto;
+        padding: 0.5rem 0.875rem;
+        background: var(--ink);
+        color: var(--banana-yellow);
+        z-index: 50;
+        border: 0;
+      }
+
+      .site-footer {
+        margin-top: auto;
+        border-top: 2px solid var(--ink);
+        padding-block: clamp(1.5rem, 3vw, 2rem);
+        background: var(--bg);
+      }
+
+      .footer-inner {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: flex-start;
+      }
+
+      .footer-line {
+        font-family: var(--font-sans);
+        font-size: 0.8125rem;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        color: var(--text);
+        margin: 0;
+      }
+
+      .footer-nav {
+        display: flex;
+        gap: 0.6rem;
+        align-items: center;
+        font-family: var(--font-sans);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .footer-nav a {
+        border-bottom-width: 1px;
+      }
+
+      @media (min-width: 640px) {
+        .footer-inner {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+      }
+    </style>
+  </body>
+</html>

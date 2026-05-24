@@ -1,0 +1,30 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+.astro/
+
+# environment
+.env
+.env.local
+.env.*.local
+
+# wrangler
+.wrangler/
+.dev.vars
+
+# editor / OS
+.DS_Store
+.vscode/
+.idea/
+*.log
+
+# stray docs (do not commit)
+*.docx
+*.pdf
+*.xlsx
+*.pptx
+*.numbers
+*.pages
+*.key

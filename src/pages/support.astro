@@ -1,0 +1,82 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Support"
+  description="Get support for Go Bananas. Contact info for testers, bug reports, feature requests, and feedback."
+  path="/support"
+>
+  <section class="container-quiet page-head">
+    <p class="eyebrow"><a href="/">Go Bananas</a></p>
+    <h1 class="page-title">Support</h1>
+    <p class="page-meta">Bug reports, feature requests, and beta access.</p>
+  </section>
+
+  <hr class="section-rule" />
+
+  <article class="container-quiet section prose">
+    <h2>How to reach us</h2>
+    <p>
+      Email{' '}
+      <a href="mailto:info@harnischllc.com">info@harnischllc.com</a>{' '}
+      with bug reports, feature requests, or anything else. Replies usually
+      come within a few days.
+    </p>
+
+    <h2>Reporting a misclassification</h2>
+    <p>
+      If the app called a banana the wrong ripeness stage, that's the most
+      useful feedback we can get. Two-step process:
+    </p>
+    <ol>
+      <li>
+        <strong>Screenshot the result screen.</strong> The bottom of that
+        screen has a small diagnostic block showing the hue values our
+        classifier saw. That's the data we use to recalibrate.
+      </li>
+      <li>
+        <strong>Email the screenshot</strong> to{' '}
+        <a href="mailto:info@harnischllc.com">info@harnischllc.com</a>{' '}
+        with a quick note on what stage you'd call the banana yourself.
+      </li>
+    </ol>
+
+    <h2>Beta access</h2>
+    <p>
+      Go Bananas is in beta on both iOS (TestFlight) and Android (Google
+      Play internal testing). If you want in, email us and mention which
+      platform.
+    </p>
+
+    <h2>Permissions and data</h2>
+    <p>
+      Everything runs on your device. Nothing leaves your phone. See the{' '}
+      <a href="/privacy">privacy policy</a> for the full breakdown.
+    </p>
+  </article>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .page-title {
+    font-size: clamp(2.25rem, 4vw + 1rem, 3.5rem);
+    font-weight: 900;
+    letter-spacing: -0.035em;
+    margin: 0.4rem 0 0;
+  }
+
+  .page-meta {
+    margin-top: 0.6rem;
+    font-size: 0.875rem;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+
+  .section {
+    padding-block: clamp(2rem, 5vw, 3.5rem);
+  }
+</style>
