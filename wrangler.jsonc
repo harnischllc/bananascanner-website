@@ -6,5 +6,9 @@
     "directory": "./dist",
     "html_handling": "drop-trailing-slash",
     "not_found_handling": "404-page"
-  }
+  },
+  "routes": [
+    { "pattern": "bananascanner.com", "custom_domain": true },
+    { "pattern": "www.bananascanner.com", "custom_domain": true }
+  ]
 }
