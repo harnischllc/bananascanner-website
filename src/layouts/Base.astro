@@ -84,6 +84,8 @@ const year = new Date().getFullYear();
       </div>
     </footer>
 
+    <div class="peek-monkey" aria-hidden="true">🐒</div>
+
     <style>
       .skip-link {
         position: absolute;
@@ -150,6 +152,153 @@ const year = new Date().getFullYear();
           align-items: center;
         }
       }
+
+      /* Hidden monkey, peeks in when you scroll to the bottom */
+      .peek-monkey {
+        position: fixed;
+        right: -40px;
+        bottom: 80px;
+        font-size: 32px;
+        z-index: 20;
+        opacity: 0;
+        transform: translateX(40px) rotate(15deg);
+        transition:
+          opacity 400ms ease,
+          transform 500ms cubic-bezier(0.3, 1.4, 0.5, 1);
+        pointer-events: none;
+        user-select: none;
+        line-height: 1;
+      }
+      .peek-monkey.peeking {
+        opacity: 1;
+        transform: translateX(-12px) rotate(-6deg);
+      }
+
+      /* Falling monkeys + bananas on Konami / monkeys() */
+      .falling-mate {
+        position: fixed;
+        top: -8vh;
+        z-index: 9999;
+        pointer-events: none;
+        user-select: none;
+        animation-name: gb-fall;
+        animation-timing-function: linear;
+        animation-fill-mode: forwards;
+        line-height: 1;
+      }
+      @keyframes gb-fall {
+        0% {
+          transform: translateY(-10vh) rotate(0deg);
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(115vh) rotate(720deg);
+          opacity: 0;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .peek-monkey,
+        .falling-mate {
+          display: none !important;
+        }
+      }
     </style>
+
+    <script is:inline>
+      // Hello, devs. Open this on a banana page and find this.
+      console.log(
+        '%c\n' +
+          '   .-""""""""""-.\n' +
+          '  /              \\\n' +
+          ' |   🍌  GO        |\n' +
+          ' |       BANANAS   |\n' +
+          '  \\              /\n' +
+          "   '-..........-'\n\n" +
+          "  hello, fellow inspector. type monkeys() for chaos.\n",
+        'background:#f5c518;color:#1f1d18;font-family:ui-monospace,Menlo,monospace;font-weight:700;padding:8px 10px;border-radius:6px;line-height:1.4;'
+      );
+
+      // monkeys() — call from the console. Or the Konami code.
+      (function () {
+        var GLYPHS = ['🐒', '🍌', '🍌', '🙊', '🙉', '🙈', '🍌', '🐒', '🍌'];
+
+        function rain() {
+          if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+          for (var i = 0; i < 60; i++) {
+            var el = document.createElement('span');
+            el.className = 'falling-mate';
+            el.textContent = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = 2 + Math.random() * 3 + 's';
+            el.style.animationDelay = Math.random() * 1.5 + 's';
+            el.style.fontSize = 24 + Math.random() * 36 + 'px';
+            document.body.appendChild(el);
+            el.addEventListener('animationend', function () {
+              this.remove();
+            });
+          }
+        }
+
+        window.monkeys = function () {
+          rain();
+          return 'the monkeys got loose. ' + '🐒'.repeat(8);
+        };
+
+        document.addEventListener('gobananas:monkeys', rain);
+
+        // Konami code: ↑ ↑ ↓ ↓ ← → ← → B A
+        var KONAMI = [
+          'ArrowUp',
+          'ArrowUp',
+          'ArrowDown',
+          'ArrowDown',
+          'ArrowLeft',
+          'ArrowRight',
+          'ArrowLeft',
+          'ArrowRight',
+          'b',
+          'a',
+        ];
+        var kIdx = 0;
+        window.addEventListener('keydown', function (e) {
+          var k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+          if (k === KONAMI[kIdx]) {
+            kIdx++;
+            if (kIdx === KONAMI.length) {
+              kIdx = 0;
+              rain();
+            }
+          } else {
+            kIdx = k === KONAMI[0] ? 1 : 0;
+          }
+        });
+
+        // Peek monkey on scroll-to-bottom
+        var monkey = document.querySelector('.peek-monkey');
+        var peekActive = false;
+        function onScroll() {
+          if (!monkey) return;
+          if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+          var nearBottom =
+            window.innerHeight + window.scrollY >=
+            document.documentElement.scrollHeight - 220;
+          if (nearBottom && !peekActive) {
+            peekActive = true;
+            monkey.classList.add('peeking');
+          } else if (!nearBottom && peekActive) {
+            peekActive = false;
+            monkey.classList.remove('peeking');
+          }
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+        // Check once on load in case the page is already short.
+        document.addEventListener('DOMContentLoaded', onScroll);
+      })();
+    </script>
   </body>
 </html>
