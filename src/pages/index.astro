@@ -33,48 +33,71 @@ import Base from '../layouts/Base.astro';
     (function () {
       var banana = document.querySelector('[data-banana]');
       if (!banana) return;
-      var clicks = 0;
+      var reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reducedMotion) return; // No counter, no clicks, no JS — let the CSS reduce-motion rules carry it.
+
+      // Three brand-palette colors plus the deep yellow; tokens are mirrored
+      // so the burst stays in sync if the palette ever shifts.
+      var BIT_COLORS = ['#f5c518', '#d9a800', '#5d9a3f', '#8a5a2b'];
+
+      var streak = 0;
       var resetTimer;
+
       banana.addEventListener('click', function () {
-        clicks++;
+        streak++;
+        // Wait for the actual animation end, not a wall-clock timeout, so
+        // a busy thread can't yank the class mid-frame.
         banana.classList.add('squish');
-        setTimeout(function () {
-          banana.classList.remove('squish');
-        }, 280);
+        banana.addEventListener('animationend', clearSquish, { once: true });
+
         clearTimeout(resetTimer);
-        resetTimer = setTimeout(function () {
-          clicks = 0;
-        }, 1500);
-        if (clicks >= 5) {
-          clicks = 0;
-          bananaBurst();
-        }
+        resetTimer = setTimeout(function () { streak = 0; }, 1500);
+
+        // Every click bursts. Streak escalates: 1 → 8 bits, 2 → 16, 3+ → 36.
+        var bits = streak === 1 ? 8 : streak === 2 ? 16 : 36;
+        bananaBurst(bits);
       });
 
-      function bananaBurst() {
-        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        var rect = banana.getBoundingClientRect();
-        var cx = rect.left + rect.width / 2;
-        var cy = rect.top + rect.height / 2;
-        for (var i = 0; i < 36; i++) {
+      function clearSquish() {
+        banana.classList.remove('squish');
+      }
+
+      function bananaBurst(count) {
+        // Use offset geometry (un-transformed) so the origin doesn't drift
+        // with the wobble's rotate/scale.
+        var cx = banana.offsetLeft + banana.offsetWidth / 2;
+        var cy = banana.offsetTop + banana.offsetHeight / 2;
+        // Translate to viewport coords for position:fixed bits.
+        cx -= window.scrollX;
+        cy -= window.scrollY;
+
+        // Per-bit floor so bits fall to roughly the bottom of the viewport
+        // instead of every bit getting the same 70vh push.
+        var floor = window.innerHeight - cy + 60;
+
+        for (var i = 0; i < count; i++) {
           var el = document.createElement('span');
           el.className = 'banana-bit';
           el.textContent = '🍌';
           el.style.left = cx + 'px';
           el.style.top = cy + 'px';
-          var angle = (i / 36) * Math.PI * 2;
-          var dist = 180 + Math.random() * 220;
+
+          // Jittered angle so the burst doesn't read as a clock-face.
+          var angle = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.6;
+          var dist = 160 + Math.random() * 220;
           el.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
-          el.style.setProperty(
-            '--ty',
-            Math.sin(angle) * dist - 40 + 'px'
-          );
+          el.style.setProperty('--ty', Math.sin(angle) * dist - 40 + 'px');
+          el.style.setProperty('--fall', floor + 'px');
           el.style.animationDuration = 0.9 + Math.random() * 0.7 + 's';
+          el.style.animationDelay = Math.random() * 0.12 + 's';
           el.style.fontSize = 22 + Math.random() * 28 + 'px';
+          // Color-tint roughly 35% of the bits with an accent so the burst
+          // reads as a ripening arc, not a flat yellow puff.
+          if (Math.random() < 0.35) {
+            el.style.color = BIT_COLORS[Math.floor(Math.random() * BIT_COLORS.length)];
+          }
           document.body.appendChild(el);
-          el.addEventListener('animationend', function () {
-            this.remove();
-          });
+          el.addEventListener('animationend', function () { this.remove(); }, { once: true });
         }
       }
     })();
@@ -148,8 +171,16 @@ import Base from '../layouts/Base.astro';
     pointer-events: none;
   }
 
-  .hero-mark:hover {
-    animation: gb-wobble 1.2s ease-in-out infinite;
+  /* Wobble only on devices with a real hover (no sticky hover after tap on iOS). */
+  @media (hover: hover) and (pointer: fine) {
+    .hero-mark:hover {
+      animation: gb-wobble 1.2s ease-in-out infinite;
+    }
+    /* While squishing on a hovering device, freeze the wobble so the post-squish
+       resume doesn't snap to a different rotation. */
+    .hero-mark.squish:hover {
+      animation: gb-squish 280ms ease;
+    }
   }
 
   .hero-mark.squish {
@@ -183,18 +214,20 @@ import Base from '../layouts/Base.astro';
   }
 
   .peak-word:hover,
+  .peak-word:focus,
   .peak-word:focus-visible {
     animation: gb-ripen 1.4s steps(1) infinite;
     transform: scale(1.06);
     outline: none;
   }
 
+  /* Four-stage ripen using brand tokens. Drop the in-between lime — keeping
+     animation honest to the actual palette beats fudging a hex. */
   @keyframes gb-ripen {
-    0%, 16% { color: #5d9a3f; }
-    17%, 40% { color: #c4d44a; }
-    41%, 63% { color: #f5c518; }
-    64%, 83% { color: #d9a800; }
-    84%, 100% { color: #8a5a2b; }
+    0%, 24%   { color: var(--accent-green); }
+    25%, 49%  { color: var(--banana-yellow); }
+    50%, 74%  { color: var(--banana-yellow-deep); }
+    75%, 100% { color: var(--accent-brown); }
   }
 
   /* Banana confetti burst */
@@ -215,7 +248,9 @@ import Base from '../layouts/Base.astro';
       opacity: 1;
     }
     100% {
-      transform: translate(var(--tx), calc(var(--ty) + 70vh)) rotate(720deg);
+      /* --fall is set per bit in JS so each one lands near the visible floor
+         rather than every bit getting a hardcoded 70vh push. */
+      transform: translate(var(--tx), calc(var(--ty) + var(--fall, 70vh))) rotate(720deg);
       opacity: 0;
     }
   }
@@ -224,11 +259,13 @@ import Base from '../layouts/Base.astro';
     .hero-mark:hover,
     .hero-mark.squish,
     .peak-word:hover,
+    .peak-word:focus,
     .peak-word:focus-visible {
       animation: none;
       transform: none;
     }
-    .banana-bit { display: none; }
+    /* JS exits early when reduced-motion is on so no .banana-bit nodes are
+       created; no display:none rule needed. */
   }
 
   .hero-copy {
@@ -246,7 +283,7 @@ import Base from '../layouts/Base.astro';
 
   .hero-tag {
     margin-top: 1.1rem;
-    font-size: clamp(1.0625rem, 1.4vw + 0.65rem, 1.4rem);
+    font-size: var(--text-lead);
     font-weight: 700;
     color: var(--ink);
     max-width: 22ch;
