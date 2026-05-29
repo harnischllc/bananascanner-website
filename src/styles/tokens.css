@@ -19,6 +19,12 @@
   --line: #e9e4d6;
   --white: #ffffff;
 
+  /* secondary accents (mirrors theme.ts; useful for stage/event color cues) */
+  --accent-green: #5d9a3f;
+  --accent-green-soft: #d6ebc8;
+  --accent-brown: #8a5a2b;
+  --accent-brown-soft: #ead7c1;
+
   /* semantic roles */
   --bg: var(--banana-yellow);
   --surface: var(--banana-cream);
@@ -32,11 +38,27 @@
   /* typography */
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  /* sizing scale */
+  /* type sizing scale */
   --text-eyebrow: 0.7rem;
   --text-body: 1.0625rem;
   --text-lead: clamp(1.125rem, 1.4vw + 0.7rem, 1.375rem);
   --text-display: clamp(3rem, 7vw + 1rem, 6.5rem);
+
+  /* corner radius scale (mirrors theme.ts radius) */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* spacing scale (mirrors theme.ts space) */
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 22px;
+  --space-xl: 28px;
+  --space-xxl: 40px;
 
   /* layout */
   --max-prose: 36rem;
