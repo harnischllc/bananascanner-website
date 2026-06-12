@@ -231,31 +231,6 @@ import Base from '../layouts/Base.astro';
     75%, 100% { color: var(--accent-brown); }
   }
 
-  /* Banana confetti burst */
-  .banana-bit {
-    position: fixed;
-    z-index: 9999;
-    pointer-events: none;
-    user-select: none;
-    line-height: 1;
-    animation-name: gb-burst;
-    animation-timing-function: cubic-bezier(0.2, 0.5, 0.5, 1);
-    animation-fill-mode: forwards;
-  }
-
-  @keyframes gb-burst {
-    0% {
-      transform: translate(0, 0) rotate(0);
-      opacity: 1;
-    }
-    100% {
-      /* --fall is set per bit in JS so each one lands near the visible floor
-         rather than every bit getting a hardcoded 70vh push. */
-      transform: translate(var(--tx), calc(var(--ty) + var(--fall, 70vh))) rotate(720deg);
-      opacity: 0;
-    }
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .hero-mark:hover,
     .hero-mark.squish,

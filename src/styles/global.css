@@ -165,3 +165,73 @@
     margin: 0;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Runtime-created easter-egg elements (GLOBAL, must not be scoped).   */
+/*                                                                     */
+/* These nodes are built in JS (document.createElement) and appended   */
+/* to <body>, so they live outside any .astro component template and   */
+/* never get a data-astro-cid attribute. A scoped component <style>    */
+/* only matches attributed template elements, so these rules must be   */
+/* global. Scoped, the bits lose position:fixed (stacking down the     */
+/* flex-column body) and never animate, so animationend never fires    */
+/* and this.remove() never runs, piling them up without bound.         */
+/* ------------------------------------------------------------------ */
+
+/* Banana confetti burst — homepage banana click (src/pages/index.astro). */
+.banana-bit {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  animation-name: gb-burst;
+  animation-timing-function: cubic-bezier(0.2, 0.5, 0.5, 1);
+  animation-fill-mode: forwards;
+}
+
+@keyframes gb-burst {
+  0% {
+    transform: translate(0, 0) rotate(0);
+    opacity: 1;
+  }
+  100% {
+    /* --fall is set per bit in JS so each one lands near the visible floor. */
+    transform: translate(var(--tx), calc(var(--ty) + var(--fall, 70vh))) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* Falling monkeys + bananas — monkeys() / Konami code (src/layouts/Base.astro). */
+.falling-mate {
+  position: fixed;
+  top: -8vh;
+  z-index: 9999;
+  pointer-events: none;
+  user-select: none;
+  animation-name: gb-fall;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  line-height: 1;
+}
+
+@keyframes gb-fall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(115vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banana-bit,
+  .falling-mate {
+    display: none !important;
+  }
+}

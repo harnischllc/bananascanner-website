@@ -174,35 +174,8 @@ const year = new Date().getFullYear();
         transform: translateX(-12px) rotate(-6deg);
       }
 
-      /* Falling monkeys + bananas on Konami / monkeys() */
-      .falling-mate {
-        position: fixed;
-        top: -8vh;
-        z-index: 9999;
-        pointer-events: none;
-        user-select: none;
-        animation-name: gb-fall;
-        animation-timing-function: linear;
-        animation-fill-mode: forwards;
-        line-height: 1;
-      }
-      @keyframes gb-fall {
-        0% {
-          transform: translateY(-10vh) rotate(0deg);
-          opacity: 1;
-        }
-        90% {
-          opacity: 1;
-        }
-        100% {
-          transform: translateY(115vh) rotate(720deg);
-          opacity: 0;
-        }
-      }
-
       @media (prefers-reduced-motion: reduce) {
-        .peek-monkey,
-        .falling-mate {
+        .peek-monkey {
           display: none !important;
         }
       }
