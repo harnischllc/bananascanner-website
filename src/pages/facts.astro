@@ -1,0 +1,155 @@
+---
+import Base from '../layouts/Base.astro';
+import { PUBLISHED_FACTS, FACT_CATEGORIES } from '../data/facts';
+
+const slug = (s: string) => s.toLowerCase();
+
+const groups = FACT_CATEGORIES.map((cat) => ({
+  cat,
+  items: PUBLISHED_FACTS.filter((f) => f.category === cat),
+})).filter((g) => g.items.length > 0);
+
+const total = PUBLISHED_FACTS.length;
+---
+
+<Base
+  title="Banana Facts"
+  description={`${total} true, sourced facts about bananas, from botany and genetics to the radioactive ones. Each fact links to where it came from. Published by Harnisch LLC.`}
+  path="/facts"
+>
+  <section class="container-quiet page-head">
+    <p class="eyebrow"><a href="/">Go Bananas</a></p>
+    <h1 class="page-title">Banana Facts</h1>
+    <p class="page-meta">
+      {total} true things about bananas. Every one links to its source.
+    </p>
+  </section>
+
+  <hr class="section-rule" />
+
+  <nav class="container-quiet catnav" aria-label="Jump to a category">
+    {groups.map((g) => <a href={`#${slug(g.cat)}`}>{g.cat}</a>)}
+  </nav>
+
+  <hr class="section-rule" />
+
+  {
+    groups.map((g) => (
+      <section class="container-quiet factsection" id={slug(g.cat)}>
+        <p class="eyebrow cat-head">{g.cat}</p>
+        <ul class="facts" role="list">
+          {g.items.map((f) => (
+            <li class="fact">
+              <p class="fact-text">{f.fact}</p>
+              <p class="fact-quip">{f.quip}</p>
+              <p class="fact-src">
+                <span class="src-label">Source</span>
+                <a href={f.sourceUrl} target="_blank" rel="noopener noreferrer">
+                  {f.sourceName} &#8599;
+                </a>
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</Base>
+
+<style>
+  .page-head {
+    padding-block: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .page-title {
+    font-size: clamp(2.25rem, 4vw + 1rem, 3.5rem);
+    font-weight: 900;
+    letter-spacing: -0.035em;
+    margin: 0.4rem 0 0;
+  }
+
+  .page-meta {
+    margin-top: 0.6rem;
+    font-size: 1.0625rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* Category jump-nav, styled like the footer nav. */
+  .catnav {
+    padding-block: 1.1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .catnav a {
+    border-bottom-width: 1px;
+  }
+
+  .factsection {
+    padding-block: clamp(1.75rem, 4vw, 2.75rem);
+    scroll-margin-top: 4rem;
+  }
+
+  .cat-head {
+    font-size: 0.8rem;
+    margin: 0 0 1.25rem;
+  }
+
+  .facts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: var(--max-prose);
+  }
+
+  .fact {
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .fact:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .fact-text {
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .fact-quip {
+    margin: 0.4rem 0 0;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--text-dim);
+  }
+
+  .fact-src {
+    margin: 0.6rem 0 0;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .src-label {
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .fact-src a {
+    font-weight: 600;
+    border-bottom-width: 1px;
+  }
+</style>
