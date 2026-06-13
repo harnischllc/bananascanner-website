@@ -2,11 +2,21 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "bananascanner-website",
   "compatibility_date": "2026-05-24",
+  "main": "worker/index.ts",
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
     "html_handling": "drop-trailing-slash",
-    "not_found_handling": "404-page"
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
   },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "gobananas_corrections",
+      "database_id": "b5f1cb26-b8cb-4851-93e3-2ebc9deb90a1"
+    }
+  ],
   "routes": [
     { "pattern": "bananascanner.com", "custom_domain": true },
     { "pattern": "www.bananascanner.com", "custom_domain": true }

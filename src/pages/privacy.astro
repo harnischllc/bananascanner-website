@@ -1,12 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 
-const lastUpdated = 'May 24, 2026';
+const lastUpdated = 'June 13, 2026';
 ---
 
 <Base
   title="Privacy"
-  description="Go Bananas privacy policy. The app runs entirely on your device. No data is collected, transmitted, or shared."
+  description="Go Bananas privacy policy. The app runs on your device. The only thing that can leave your phone is optional, anonymous ripeness corrections you choose to send."
   path="/privacy"
 >
   <section class="container-quiet page-head">
@@ -26,17 +26,19 @@ const lastUpdated = 'May 24, 2026';
 
     <h2>TL;DR</h2>
     <p>
-      Go Bananas runs entirely on your device. We do not collect, transmit,
-      store, or share any personal data. Photos you take to scan a banana
-      are processed on the device, never uploaded, and never leave your
-      phone.
+      Go Bananas runs on your device. Photos you take to scan a banana are
+      processed on the phone, never uploaded, and never leave it. We collect
+      no personal data and have no account or login. The one thing that can
+      leave your phone is an optional, anonymous ripeness correction, and only
+      if you turn it on. Details below.
     </p>
 
     <h2>What we collect</h2>
     <p>
-      <strong>Nothing.</strong> Go Bananas v1.0 does not transmit any data
-      off your device. There is no account, no login, no analytics, no
-      advertising SDK.
+      By default, <strong>nothing</strong>. There is no account, no login, no
+      analytics, and no advertising SDK. The single exception is the optional
+      "Send anonymous corrections" setting, which is off unless you turn it on.
+      See "Anonymous corrections" below for exactly what it sends.
     </p>
 
     <h2>What stays on your device</h2>
@@ -87,13 +89,27 @@ const lastUpdated = 'May 24, 2026';
       </li>
     </ul>
 
-    <h2>Future features</h2>
+    <h2>Anonymous corrections (optional, off by default)</h2>
     <p>
-      A future version may add an optional "anonymous corrections" feature,
-      where you can send back the predicted ripeness stage and your
-      correction (no photos, no identifying information) to help improve
-      the algorithm. This will be strictly opt-in. When and if it ships,
-      this policy will be updated to describe exactly what is sent.
+      The app can misjudge a banana's ripeness. If you turn on "Send anonymous
+      corrections" in the You tab and then tap the stage a banana actually was
+      on a result screen, the app sends that correction to us so we can tune
+      the ripeness algorithm.
+    </p>
+    <p>Each correction contains only:</p>
+    <ul>
+      <li>the ripeness stage the app predicted, and the stage you said it was;</li>
+      <li>the hue value (a single number) the camera read;</li>
+      <li>
+        a rough confidence number, a test-mode flag, the app version, and a
+        timestamp.
+      </li>
+    </ul>
+    <p>
+      It does <strong>not</strong> include the photo, your name, your email, an
+      account, a device identifier, or your location. There is no way for us to
+      tie a correction back to you or your phone. The setting is off until you
+      switch it on, and you can switch it off at any time.
     </p>
 
     <h2>Children</h2>
