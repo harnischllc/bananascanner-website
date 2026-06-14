@@ -38,6 +38,61 @@ import Base from '../layouts/Base.astro';
       and mention which platform.
     </p>
 
+    <div class="screens screens-centered">
+      <figure class="phone">
+        <div class="phone-frame">
+          <img
+            src="/screens/home-scan.png"
+            alt="Go Bananas home screen with the Scan with camera button"
+            width="600"
+            height="1304"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption class="phone-cap">Scan with your camera</figcaption>
+      </figure>
+      <figure class="phone">
+        <div class="phone-frame">
+          <img
+            src="/screens/banana-bunch.png"
+            alt="The Banana Bunch screen tracking named bananas and their ripeness"
+            width="600"
+            height="1304"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption class="phone-cap">Track your bunch</figcaption>
+      </figure>
+      <figure class="phone">
+        <div class="phone-frame">
+          <img
+            src="/screens/ripeness-scale.png"
+            alt="The seven-stage USDA banana ripeness scale"
+            width="600"
+            height="1304"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption class="phone-cap">The 7-stage scale</figcaption>
+      </figure>
+      <figure class="phone">
+        <div class="phone-frame">
+          <img
+            src="/screens/rewards.png"
+            alt="Rewards screen with the daily crate, streaks, and variety collection"
+            width="600"
+            height="1304"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption class="phone-cap">Daily crates and streaks</figcaption>
+      </figure>
+    </div>
+
     <h2>Permissions and data</h2>
     <p>
       Everything runs on your device. Nothing leaves your phone. See the{' '}
@@ -67,5 +122,12 @@ import Base from '../layouts/Base.astro';
 
   .section {
     padding-block: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  /* Keep the beta screenshot strip to a tidy two-up grid on wider screens
+     (mobile still gets the horizontal scroll strip from the base .screens). */
+  .screens {
+    max-width: 32rem;
+    margin-inline: auto;
   }
 </style>
