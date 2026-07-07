@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 
 <Base
   title="Go Bananas"
-  description="Catch every banana at its peak. iOS and Android app that scans bananas with your camera and rates ripeness on-device. Published by Harnisch LLC."
+  description="Catch every banana at its peak. Scans bananas with your camera and rates ripeness on-device. Out now on Google Play; iOS beta on TestFlight. Published by Harnisch LLC."
   path="/"
 >
   <section class="hero container-quiet">
@@ -112,7 +112,8 @@ import Base from '../layouts/Base.astro';
       eat each one when it's actually good.
     </p>
     <p class="lead">
-      Everything happens on your device. No upload, no account, no tracking.
+      Everything happens on your device. Photos never leave your phone. No
+      account, no tracking.
     </p>
   </section>
 
@@ -166,11 +167,26 @@ import Base from '../layouts/Base.astro';
   <hr class="section-rule" />
 
   <section class="container-quiet section">
-    <p class="eyebrow">Status</p>
+    <p class="eyebrow">Get the app</p>
     <p class="status-line">
-      In TestFlight beta on iOS. In Google Play internal testing on Android.
-      Public release coming. <a href="/support">Get in touch</a> for early
-      access.
+      Out now on Android. On iOS it's in TestFlight beta, with the App Store
+      release coming; <a href="/support">get in touch</a> for early access.
+    </p>
+    <a
+      class="store-badge"
+      href="https://play.google.com/store/apps/details?id=com.harnischllc.gobananas"
+    >
+      <img
+        src="/google-play-badge.png"
+        alt="Get it on Google Play"
+        width="646"
+        height="250"
+        loading="lazy"
+        decoding="async"
+      />
+    </a>
+    <p class="badge-legal">
+      Google Play and the Google Play logo are trademarks of Google LLC.
     </p>
   </section>
 
@@ -323,6 +339,27 @@ import Base from '../layouts/Base.astro';
     color: var(--text);
     max-width: var(--max-prose);
     font-weight: 500;
+  }
+
+  /* The official badge artwork carries its own padding, so pull it back
+     toward the text's left edge instead of double-indenting. */
+  .store-badge {
+    display: inline-block;
+    margin: 0.9rem 0 0 -10px;
+    text-decoration: none;
+    border-bottom: 0;
+  }
+
+  .store-badge img {
+    display: block;
+    height: 72px;
+    width: auto;
+  }
+
+  .badge-legal {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-dim);
   }
 
   .link-list {
