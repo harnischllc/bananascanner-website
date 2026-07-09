@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 
 <Base
   title="Go Bananas"
-  description="Catch every banana at its peak. Scans bananas with your camera and rates ripeness on-device. Out now on Google Play; iOS beta on TestFlight. Published by Harnisch LLC."
+  description="Catch every banana at its peak. Scans bananas with your camera and rates ripeness on-device. Free on the App Store and Google Play. Published by Harnisch LLC."
   path="/"
 >
   <section class="hero container-quiet">
@@ -169,24 +169,40 @@ import Base from '../layouts/Base.astro';
   <section class="container-quiet section">
     <p class="eyebrow">Get the app</p>
     <p class="status-line">
-      Out now on Android. On iOS it's in TestFlight beta, with the App Store
-      release coming; <a href="/support">get in touch</a> for early access.
+      Out now on the App Store and Google Play. Free, on iPhone, iPad, and
+      Android.
     </p>
-    <a
-      class="store-badge"
-      href="https://play.google.com/store/apps/details?id=com.harnischllc.gobananas"
-    >
-      <img
-        src="/google-play-badge.png"
-        alt="Get it on Google Play"
-        width="646"
-        height="250"
-        loading="lazy"
-        decoding="async"
-      />
-    </a>
+    <div class="store-badges">
+      <a
+        class="store-badge"
+        href="https://apps.apple.com/app/id6772261640"
+      >
+        <img
+          src="/app-store-badge.svg"
+          alt="Download on the App Store"
+          width="120"
+          height="40"
+          loading="lazy"
+          decoding="async"
+        />
+      </a>
+      <a
+        class="store-badge"
+        href="https://play.google.com/store/apps/details?id=com.harnischllc.gobananas"
+      >
+        <img
+          src="/google-play-badge.png"
+          alt="Get it on Google Play"
+          width="646"
+          height="250"
+          loading="lazy"
+          decoding="async"
+        />
+      </a>
+    </div>
     <p class="badge-legal">
-      Google Play and the Google Play logo are trademarks of Google LLC.
+      Apple and the Apple logo are trademarks of Apple Inc. Google Play and the
+      Google Play logo are trademarks of Google LLC.
     </p>
   </section>
 
@@ -343,17 +359,35 @@ import Base from '../layouts/Base.astro';
 
   /* The official badge artwork carries its own padding, so pull it back
      toward the text's left edge instead of double-indenting. */
+  .store-badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+  }
+
   .store-badge {
     display: inline-block;
-    margin: 0.9rem 0 0 -10px;
     text-decoration: none;
     border-bottom: 0;
   }
 
   .store-badge img {
     display: block;
-    height: 72px;
     width: auto;
+  }
+
+  /* The App Store badge is tight artwork with no built-in padding. */
+  .store-badge:first-child img {
+    height: 44px;
+  }
+
+  /* The Play badge PNG carries its own padding, so run it taller to match
+     the App Store button's visual height, and pull it back toward the edge. */
+  .store-badge:last-child img {
+    height: 62px;
+    margin-left: -9px;
   }
 
   .badge-legal {
