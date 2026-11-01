@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 
-const lastUpdated = 'June 13, 2026';
+const lastUpdated = 'November 1, 2026';
 ---
 
 <Base
@@ -30,15 +30,17 @@ const lastUpdated = 'June 13, 2026';
       processed on the phone, never uploaded, and never leave it. We collect
       no personal data and have no account or login. The one thing that can
       leave your phone is an optional, anonymous ripeness correction, and only
-      if you turn it on. Details below.
+      if you choose to send it. Details below.
     </p>
 
     <h2>What we collect</h2>
     <p>
       By default, <strong>nothing</strong>. There is no account, no login, no
       analytics, and no advertising SDK. The single exception is the optional
-      "Send anonymous corrections" setting, which is off unless you turn it on.
-      See "Anonymous corrections" below for exactly what it sends.
+      anonymous ripeness correction, which is sent only after you say yes to
+      "Send this one in?" on a result screen, or turn on "Send anonymous
+      corrections" in the You tab. See "Anonymous corrections" below for
+      exactly what it sends.
     </p>
 
     <h2>What stays on your device</h2>
@@ -91,15 +93,24 @@ const lastUpdated = 'June 13, 2026';
 
     <h2>Anonymous corrections (optional, off by default)</h2>
     <p>
-      The app can misjudge a banana's ripeness. If you turn on "Send anonymous
-      corrections" in the You tab and then tap the stage a banana actually was
-      on a result screen, the app sends that correction to us so we can tune
-      the ripeness algorithm.
+      The app can misjudge a banana's ripeness. On a result screen you can tap
+      the stage a banana actually was. The first time you do, the app asks
+      "Send this one in?" Choose "Send it" and that correction, and later
+      ones, are sent to us so we can tune the ripeness algorithm. Choose "Keep
+      it on my phone" and nothing is sent; the app will not ask again, though
+      a later correction offers a one-tap "Send anonymously" that turns
+      sending on if you change your mind. The "Send anonymous corrections"
+      switch in the You tab shows your choice and turns sending on or off at
+      any time.
     </p>
     <p>Each correction contains only:</p>
     <ul>
       <li>the ripeness stage the app predicted, and the stage you said it was;</li>
       <li>the hue value (a single number) the camera read;</li>
+      <li>
+        two numbers about the photo, not the photo itself: how much of the
+        frame was banana-colored, and how strong that color was;
+      </li>
       <li>
         a rough confidence number, a test-mode flag, the app version, and a
         timestamp.
@@ -108,14 +119,14 @@ const lastUpdated = 'June 13, 2026';
     <p>
       It does <strong>not</strong> include the photo, your name, your email, an
       account, a device identifier, or your location. There is no way for us to
-      tie a correction back to you or your phone. The setting is off until you
-      switch it on, and you can switch it off at any time.
+      tie a correction back to you or your phone. Nothing is sent until you say
+      yes, and you can switch sending off at any time in the You tab.
     </p>
 
     <h2>Children</h2>
     <p>
-      Go Bananas is suitable for all ages and does not knowingly collect
-      data from anyone, including children under 13.
+      Go Bananas does not knowingly collect personal data from anyone,
+      including children under 13.
     </p>
 
     <h2>Changes to this policy</h2>

@@ -8,7 +8,9 @@
  * the bottom is a defensive fallback only.
  *
  * POST /api/corrections stores one row in D1. No photo, no account, no device
- * id. The sender is lib/corrections.ts in the mobile app.
+ * id. The sender is lib/corrections.ts in the mobile app. Build 16+ also sends
+ * two optional frame statistics (candidateFraction, satMedian); see
+ * migrations/0002_frame_stats.sql.
  */
 interface D1Like {
   prepare(query: string): {
@@ -72,14 +74,28 @@ export default {
           : 'unknown';
       const clientTs =
         typeof body.ts === 'string' ? body.ts.slice(0, 40) : null;
+      // Build 16+ frame statistics, both 0..1. Null when an older app omits them.
+      const candidateFraction = unitInterval(body.candidateFraction, 3);
+      const satMedian = unitInterval(body.satMedian, 2);
 
       try {
         await env.DB.prepare(
           `INSERT INTO corrections
-             (predicted_stage, corrected_stage, hue, confidence, demo, app_version, client_ts)
-           VALUES (?, ?, ?, ?, ?, ?, ?)`,
+             (predicted_stage, corrected_stage, hue, confidence, demo, app_version, client_ts,
+              candidate_fraction, sat_median)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         )
-          .bind(predicted, corrected, Math.round(hue), confidence, demo, appVersion, clientTs)
+          .bind(
+            predicted,
+            corrected,
+            Math.round(hue),
+            confidence,
+            demo,
+            appVersion,
+            clientTs,
+            candidateFraction,
+            satMedian,
+          )
           .run();
       } catch {
         return json({ error: 'store failed' }, 500);
@@ -93,6 +109,15 @@ export default {
     return env.ASSETS.fetch(request);
   },
 };
+
+/** Optional number clamped to 0..1 and rounded; null when absent or malformed. */
+function unitInterval(value: unknown, decimals: number): number | null {
+  if (value === undefined || value === null) return null;
+  const n = Number(value);
+  if (!Number.isFinite(n)) return null;
+  const factor = 10 ** decimals;
+  return Math.round(Math.max(0, Math.min(1, n)) * factor) / factor;
+}
 
 function json(obj: unknown, status: number): Response {
   return new Response(JSON.stringify(obj), {
